@@ -1,0 +1,23 @@
+name: Build PKGi PS3
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: bucanero/ps3dev:latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Compile PKG
+        run: |
+          make clean
+          make
+
+      - name: Upload PKG Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pkgi-compiled
+          path: ./*.pkg
